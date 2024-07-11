@@ -38,15 +38,19 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
 
 @router.post("/forgot-password")
 async def forgot_password(user: UserForgotPassword):
-    # Implement email sending with reset token logic here
+    
     pass
 
 @router.post("/reset-password")
 async def reset_password(user: UserResetPassword):
-    # Implement reset password logic here
+   
     pass
 
 @router.post("/login/google")
-async def login_google():
-    # Implement Google login logic here
+async def login_google(token: str):
+    # Exchange the authorization code for an access token
+    # Verify the access token and retrieve user information
+    # Check if the user exists in the database
+    # If not, create a new user
+    # Generate and return a JWT token
     pass
