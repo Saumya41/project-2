@@ -52,3 +52,28 @@ async def reset_password(user: UserResetPassword):
     )
     
     return {"msg": "Password has been reset successfully."}
+
+
+
+@router.post("/create-password")
+async def create_password(user: UserCreatePassword):
+    user_data = await users_collection.find_one({"email": user.email})
+    if not user_data:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User with this email does not exist."
+        )
+
+    if user_data.get("hashed_password"):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password is already set for this user."
+        )
+    
+    new_hashed_password = get_password_hash(user.new_password)
+    await users_collection.update_one(
+        {"email": user.email},
+        {"$set": {"hashed_password": new_hashed_password}}
+    )
+    
+    return {"msg": "Password has been created successfully."}

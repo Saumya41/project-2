@@ -15,3 +15,8 @@ class UserForgotPassword(BaseModel):
 class UserResetPassword(BaseModel):
     reset_token: str
     new_password: str
+
+
+class UserCreatePassword(BaseModel):
+    email: EmailStr
+    new_password: str
